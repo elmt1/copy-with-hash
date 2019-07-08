@@ -8,7 +8,7 @@ namespace CopyWithHash
 {
     public static class CopyWithHash
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             if (args.Length.Equals(1))
             {
@@ -24,9 +24,15 @@ namespace CopyWithHash
             }
         }
 
+        /// <summary>Copies files from a given path to the target path and appends an MD5 hash to the file names. 
+        ///             Files that already exist will be updated to the latest change time.</summary>
+        /// <param name="fromPath">From path.</param>
+        /// <param name="toPath">To path.</param>
         public static void CopyFiles(string fromPath, string toPath)
         {
-            var existingFileNames = string.Join(string.Empty, Directory.GetFiles(toPath));
+            DirectoryInfo toDirectoryInfo = null;
+            var existingFileNames = Directory.GetFiles(toPath);
+            var existingFileNamesString = string.Join(string.Empty, existingFileNames);
             var fromDirectoryInfo = new DirectoryInfo(fromPath);
             var fileInfos = fromDirectoryInfo.GetFiles();
             FileStream fromFileStream = null;
@@ -39,10 +45,16 @@ namespace CopyWithHash
                     var hash = GetHash(fromFileStream);
 
                     // Don't copy if a file already exists with the same content but set last modified date
-                    if (existingFileNames.Contains(hash))
+                    if (existingFileNamesString.Contains(hash))
                     {
-                        var toDirectoryInfo = new DirectoryInfo((toPath + (toPath.EndsWith("\\") ? string.Empty : "\\") + "*" + hash + "*.*"));
-                        var toFileInfo = toDirectoryInfo.GetFiles().FirstOrDefault();
+                        var toFileName = Path.GetFileName(existingFileNames.First(efn => efn.Contains(hash)));
+
+                        if (toDirectoryInfo == null)
+                        {
+                            toDirectoryInfo = new DirectoryInfo(toPath);
+                        }
+
+                        var toFileInfo = toDirectoryInfo.GetFiles(toFileName).First();
 
                         if (toFileInfo != null && toFileInfo.LastWriteTime < fileInfo.LastWriteTime)
                         {
@@ -62,6 +74,8 @@ namespace CopyWithHash
             }
         }
 
+        /// <summary>Renames the files in a given directory to include their MD5 hash.</summary>
+        /// <param name="fromPath">From path.</param>
         public static void RenameFiles(string fromPath)
         {
             var fromDirectoryInfo = new DirectoryInfo(fromPath);
@@ -85,10 +99,9 @@ namespace CopyWithHash
             }
         }
 
-        /// <summary>Inserts the file hash if it isn't already there.</summary>
+        /// <summary>Returns an MD5 hash from a stream.</summary>
         /// <param name="fromStream">From stream.</param>
-        /// <param name="fileInfo">The file information.</param>
-        /// <returns></returns>
+        /// <returns>MD5 Hash</returns>
         public static string GetHash(Stream fromStream)
         {
             string hash = null;

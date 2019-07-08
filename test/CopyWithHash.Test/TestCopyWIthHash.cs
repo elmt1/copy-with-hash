@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace CopyWithHash.Test
 {
@@ -73,6 +74,64 @@ namespace CopyWithHash.Test
             Directory.CreateDirectory(toTempDirectory);
 
             CopyWithHash.CopyFiles(tempDirectory, toTempDirectory);
+            var newFileName = Directory.GetFiles(toTempDirectory).Single();
+
+            Assert.AreEqual<string>(Path.GetFileNameWithoutExtension(fileName) + ".6f8db599de986fab7a21625b7916589c" + Path.GetExtension(fileName), Path.GetFileName(newFileName));
+        }
+
+        [TestMethod]
+        public void TestCopyExistingFiles()
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(tempDirectory);
+            var fileName = Path.Combine(tempDirectory, Path.GetRandomFileName());
+            File.WriteAllText(fileName, "test string");
+
+            string toTempDirectory = Path.Combine(tempDirectory, Path.GetRandomFileName());
+            Directory.CreateDirectory(toTempDirectory);
+
+            CopyWithHash.CopyFiles(tempDirectory, toTempDirectory);
+            var newFileName = Directory.GetFiles(toTempDirectory).Single();
+
+            var originalTime = File.GetLastWriteTimeUtc(newFileName);
+            Thread.Sleep(50);
+
+            // Create new copy of file with later timestamp
+            File.WriteAllText(fileName, "test string");
+            CopyWithHash.CopyFiles(tempDirectory, toTempDirectory);
+            var newTime = File.GetLastWriteTimeUtc(newFileName);
+
+            var timespan = (newTime - originalTime).TotalMilliseconds;
+
+            Assert.IsTrue(timespan >= 50);
+        }
+
+        [TestMethod]
+        public void TestMainRenameFiles()
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(tempDirectory);
+            var fileName = Path.Combine(tempDirectory, Path.GetRandomFileName());
+            File.WriteAllText(fileName, "test string");
+
+            CopyWithHash.Main(new string[] { tempDirectory });
+            var newFileName = Directory.GetFiles(tempDirectory).Single();
+
+            Assert.AreEqual<string>(Path.GetFileNameWithoutExtension(fileName) + ".6f8db599de986fab7a21625b7916589c" + Path.GetExtension(fileName), Path.GetFileName(newFileName));
+        }
+
+        [TestMethod]
+        public void TestMainCopyFiles()
+        {
+            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(tempDirectory);
+            var fileName = Path.Combine(tempDirectory, Path.GetRandomFileName());
+            File.WriteAllText(fileName, "test string");
+
+            string toTempDirectory = Path.Combine(tempDirectory, Path.GetRandomFileName());
+            Directory.CreateDirectory(toTempDirectory);
+
+            CopyWithHash.Main(new string[] { tempDirectory, toTempDirectory });
             var newFileName = Directory.GetFiles(toTempDirectory).Single();
 
             Assert.AreEqual<string>(Path.GetFileNameWithoutExtension(fileName) + ".6f8db599de986fab7a21625b7916589c" + Path.GetExtension(fileName), Path.GetFileName(newFileName));
