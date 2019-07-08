@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E8331A91-B986-4114-923F-0BAA19AD38DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CopyWithHash", "src\copy-with-hash\CopyWithHash.csproj", "{24367485-9089-4D89-A64B-D400636E94A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A0CF4FDA-CDB3-486A-8E8E-BB2D4D4384F2}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A3E22C67-9AF2-465D-A64F-D3ADE7F98A0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyWithHash.Test", "test\CopyWithHash.Test\CopyWithHash.Test.csproj", "{B3110F90-1EBB-48BD-BEDC-928BE5E66022}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24367485-9089-4D89-A64B-D400636E94A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24367485-9089-4D89-A64B-D400636E94A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24367485-9089-4D89-A64B-D400636E94A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24367485-9089-4D89-A64B-D400636E94A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3110F90-1EBB-48BD-BEDC-928BE5E66022}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3110F90-1EBB-48BD-BEDC-928BE5E66022}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3110F90-1EBB-48BD-BEDC-928BE5E66022}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3110F90-1EBB-48BD-BEDC-928BE5E66022}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{24367485-9089-4D89-A64B-D400636E94A3} = {E8331A91-B986-4114-923F-0BAA19AD38DF}
+		{B3110F90-1EBB-48BD-BEDC-928BE5E66022} = {A3E22C67-9AF2-465D-A64F-D3ADE7F98A0B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AA9D1C15-2DD3-462A-B626-A09CD1BC6F81}
+	EndGlobalSection
+EndGlobal

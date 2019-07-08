@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>copy_with_hash</RootNamespace>
+    <AssemblyName>CopyWithHash</AssemblyName>
+  </PropertyGroup>
+
+</Project>
